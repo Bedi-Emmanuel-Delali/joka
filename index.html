@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Joka - an original real-time client and admin portal for orders, accounts, and live status updates." />
+    <title>Joka | Real-Time Client Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">J</div>
+        <div>
+          <div class="brand-name">Joka</div>
+          <div class="brand-tag">Live client operations</div>
+        </div>
+      </div>
+      <nav class="topnav">
+        <a href="#overview">Overview</a>
+        <a href="#workspace">Workspace</a>
+        <a href="#admin">Admin</a>
+      </nav>
+      <button class="ghost-button" id="resetDemoButton" type="button">Reset demo data</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero card">
+        <div class="hero-copy">
+          <span class="eyebrow">Original build with real-time state</span>
+          <h1>Run client onboarding, orders, and admin control from one polished dashboard.</h1>
+          <p>
+            This site is a clean, original implementation with client signup, login, live order tracking,
+            and an admin portal that can manage accounts and update order status in real time across tabs.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#workspace">Open workspace</a>
+            <a class="secondary-button" href="#admin">Admin portal</a>
+          </div>
+          <div class="stats-row">
+            <div class="stat-chip"><strong id="activeClientsCount">0</strong><span>active clients</span></div>
+            <div class="stat-chip"><strong id="openOrdersCount">0</strong><span>open orders</span></div>
+            <div class="stat-chip"><strong id="liveUpdatesCount">0</strong><span>live updates</span></div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="signal-card">
+            <div class="signal-label">Live feed</div>
+            <div class="signal-title">Order pipeline is synchronized</div>
+            <div class="signal-track">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <p>
+              Updates propagate instantly through the browser using local persistence and broadcast events.
+            </p>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <span>Client access</span>
+              <strong>Signup + login</strong>
+            </div>
+            <div class="mini-card">
+              <span>Admin access</span>
+              <strong>Control center</strong>
+            </div>
+            <div class="mini-card">
+              <span>Orders</span>
+              <strong>Status board</strong>
+            </div>
+            <div class="mini-card">
+              <span>Sync</span>
+              <strong>Cross-tab live</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section-grid">
+        <article class="card feature-card">
+          <div class="feature-icon">01</div>
+          <h2>Client onboarding</h2>
+          <p>Create a client account, sign in, and submit orders from a streamlined workspace.</p>
+        </article>
+        <article class="card feature-card">
+          <div class="feature-icon">02</div>
+          <h2>Admin governance</h2>
+          <p>Approve, suspend, reset, or remove client accounts and keep credentials organized.</p>
+        </article>
+        <article class="card feature-card">
+          <div class="feature-icon">03</div>
+          <h2>Live order control</h2>
+          <p>Move orders through statuses like new, confirmed, preparing, delivered, or cancelled.</p>
+        </article>
+      </section>
+
+      <section id="workspace" class="workspace-layout">
+        <section class="card workspace-card auth-card">
+          <div class="card-heading">
+            <div>
+              <span class="eyebrow">Client portal</span>
+              <h2>Signup or login</h2>
+            </div>
+            <span class="badge" id="clientSessionBadge">Guest</span>
+          </div>
+          <div class="tab-row">
+            <button class="tab-button active" data-tab="signup" type="button">Signup</button>
+            <button class="tab-button" data-tab="login" type="button">Login</button>
+          </div>
+
+          <form class="panel-form" id="signupForm">
+            <label>
+              Full name
+              <input name="name" type="text" placeholder="Amina Mensah" required />
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" placeholder="amina@example.com" required />
+            </label>
+            <label>
+              Password
+              <input name="password" type="password" placeholder="Choose a password" required />
+            </label>
+            <button class="primary-button full-width" type="submit">Create account</button>
+          </form>
+
+          <form class="panel-form hidden" id="loginForm">
+            <label>
+              Email
+              <input name="email" type="email" placeholder="amina@example.com" required />
+            </label>
+            <label>
+              Password
+              <input name="password" type="password" placeholder="Your password" required />
+            </label>
+            <button class="primary-button full-width" type="submit">Sign in</button>
+          </form>
+
+          <div class="auth-meta">
+            <p>Demo tip: open this site in two tabs to see live updates immediately.</p>
+          </div>
+        </section>
+
+        <section class="card workspace-card client-card" id="clientWorkspace">
+          <div class="card-heading">
+            <div>
+              <span class="eyebrow">Client workspace</span>
+              <h2>Orders and account status</h2>
+            </div>
+            <button class="ghost-button" id="logoutButton" type="button">Logout</button>
+          </div>
+
+          <div class="dashboard-metrics">
+            <div class="metric">
+              <span>Account status</span>
+              <strong id="clientStatusLabel">Inactive</strong>
+            </div>
+            <div class="metric">
+              <span>My orders</span>
+              <strong id="clientOrdersLabel">0</strong>
+            </div>
+            <div class="metric">
+              <span>Latest update</span>
+              <strong id="clientLatestLabel">None</strong>
+            </div>
+          </div>
+
+          <form class="panel-form" id="orderForm">
+            <div class="form-row">
+              <label>
+                Service
+                <input name="service" type="text" placeholder="Premium fulfillment" required />
+              </label>
+              <label>
+                Budget
+                <input name="budget" type="text" placeholder="$250" required />
+              </label>
+            </div>
+            <label>
+              Delivery notes
+              <textarea name="notes" rows="4" placeholder="Include timelines, priority, and any special instructions." required></textarea>
+            </label>
+            <button class="primary-button full-width" type="submit">Create order</button>
+          </form>
+
+          <div class="list-header">
+            <h3>My orders</h3>
+            <span class="muted">Live status updates</span>
+          </div>
+          <div class="orders-list" id="clientOrdersList"></div>
+        </section>
+      </section>
+
+      <section id="admin" class="card admin-card">
+        <div class="card-heading">
+          <div>
+            <span class="eyebrow">Admin portal</span>
+            <h2>Control clients and order statuses</h2>
+          </div>
+          <span class="badge warning" id="adminBadge">Locked</span>
+        </div>
+
+        <div class="admin-login" id="adminLoginBox">
+          <p>Use the admin credentials provided in this workspace to sign in.</p>
+          <form class="panel-form" id="adminLoginForm">
+            <div class="form-row">
+              <label>
+                Email
+                <input name="email" type="email" placeholder="Admin email" required />
+              </label>
+              <label>
+                Password
+                <input name="password" type="password" placeholder="Admin password" required />
+              </label>
+            </div>
+            <button class="primary-button" type="submit">Open admin portal</button>
+          </form>
+        </div>
+
+        <div class="admin-dashboard hidden" id="adminDashboard">
+          <div class="dashboard-metrics admin-metrics">
+            <div class="metric"><span>Total clients</span><strong id="totalClientsLabel">0</strong></div>
+            <div class="metric"><span>Suspended</span><strong id="suspendedClientsLabel">0</strong></div>
+            <div class="metric"><span>Pending orders</span><strong id="pendingOrdersLabel">0</strong></div>
+            <div class="metric"><span>Delivered</span><strong id="deliveredOrdersLabel">0</strong></div>
+          </div>
+
+          <div class="admin-grid">
+            <section class="admin-panel">
+              <div class="list-header">
+                <h3>Clients</h3>
+                <span class="muted">Manage access and login details</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="clientsTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="admin-panel">
+              <div class="list-header">
+                <h3>Order board</h3>
+                <span class="muted">Update statuses in real time</span>
+              </div>
+              <div class="order-board" id="adminOrderBoard"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Joka is an original demo build for client operations, not a clone of any third-party product.</p>
+    </footer>
+  </body>
+</html>
